@@ -68,31 +68,24 @@
           >
             Fechar
           </v-btn>
-          <v-btn
-            color="blue darken-1"
-            v-model="adicionar"
-            text
-            @click="dialog = false"
-          >
-            Novo
-          </v-btn>
+          <v-btn depressed color="primary" v-model="adicionar"  @click="dialog=false"> Adicionar </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-simple-table>
+    <v-simple-table v-show="arrayForm.length>0">
       <template v-slot:default>
         <thead>
           <tr>
-            <th class="text-left">Codigo</th>
-            <th class="text-left">Nome</th>
-            <th class="text-left">Endereço</th>
-            <th class="text-left">Telefone</th>
-            <th class="text-left">CPF</th>
-            <th class="text-left">Data de Nascimento</th>
+            <td class="text-left">Codigo</td>
+            <td class="text-left">Nome</td>
+            <td class="text-left">Endereço</td>
+            <td class="text-left">Telefone</td>
+            <td class="text-left">CPF</td>
+            <td class="text-left">Data de Nascimento</td>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(arrayForm, index) in arrayForms" :key="index">
+          <tr v-for="(arrayForm, index) in arrayForms" v-bind:key="index">
             <td>{{ arrayForm.codigo }}</td>
             <td>{{ arrayForm.nome }}</td>
             <td>{{ arrayForm.endereco }}</td>
@@ -113,6 +106,7 @@ export default {
   data() {
     return {
       dialog: false,
+     salvar:false,
       arrayForm: [],
       nome: "",
       endereco: "",
@@ -120,21 +114,29 @@ export default {
       cpf: "",
       nascimento: "",
       codigo: "",
-    };
+      index:'',
+      botao:''
+    
+    }
   },
   methods: {
-    adicionar() {
-      this.arrayForm.push({
-        codigo: this.arrayForm.length,
-        nome: this.nome,
-        endereco: this.endereco,
-        telefone: this.telefone,
-        cpf: this.cpf,
-        nascimento: this.nascimento,
-      });
+    adicionar(){
+    if(this.botao="adicionar"){
+  this.arrayForm.push({
+     codigo: this.arrayForm.length,
+     nome: this.nome,
+     endereco: this.endereco,
+     telefone: this.telefone,
+     cpf: this.cpf,
+     nascimento:this.nascimento
+   })
+   console.log(this,this.arrayForm)
+    
+    } 
     },
+    
     fechar() {
-      console.log(this.arrayForm);
+      
     },
   },
 };
