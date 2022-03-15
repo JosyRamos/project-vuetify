@@ -1,28 +1,47 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    
+      <div class="d-flex align-center">
+       <h1> 
+         Sistema de Cadastro
+       </h1>
+       
+      </div>
+
+      <v-spacer></v-spacer>
+    <novoComponente>
+
+    </novoComponente>
+    <v-main>
+      <HelloWorld/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from './components/HelloWorld';
+import novoComponente from './components/novoComponente';
+//import NovoComponente from './components/novoComponente.vue';
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  components: {
+    HelloWorld,
+    novoComponente
+  },
+
+  data: () => ({
+   
+   
+  }),
+};
+</script>
+<style scoped>
+.h1{
+  font-display: center;
+  background: center;
+  justify-self: center;
 }
+
 </style>
