@@ -68,7 +68,7 @@
           >
             Fechar
           </v-btn>
-          <v-btn depressed color="primary" v-model="adicionar"  @click="dialog=false"> Adicionar </v-btn>
+          <v-btn depressed color="primary" v-resize="adicionar()"  @click="dialog= false"> Adicionar </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -106,7 +106,7 @@ export default {
   data() {
     return {
       dialog: false,
-     salvar:false,
+     
       arrayForm: [],
       nome: "",
       endereco: "",
@@ -121,18 +121,16 @@ export default {
   },
   methods: {
     adicionar(){
-    if(this.botao="adicionar"){
-  this.arrayForm.push({
-     codigo: this.arrayForm.length,
-     nome: this.nome,
-     endereco: this.endereco,
-     telefone: this.telefone,
-     cpf: this.cpf,
-     nascimento:this.nascimento
-   })
-   console.log(this,this.arrayForm)
+    this.arrayForm.push({
+       codigo: this.arrayForm.length,
+       nome: this.nome,
+      endereco: this.endereco,
+      telefone: this.telefone,
+      cpf: this.cpf,
+      nascimento: this.nascimento
+     });
+      
     
-    } 
     },
     
     fechar() {
