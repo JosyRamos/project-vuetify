@@ -10,7 +10,7 @@
 
       <v-spacer></v-spacer>
     <novoComponente>
-
+      :novoComponente="novoComponente"
     </novoComponente>
     <v-main>
       <HelloWorld/>
@@ -31,10 +31,6 @@ export default {
     novoComponente,
   },
 
-  data: () => ({
-   
-   
-  }),
 };
 </script>
 <style scoped>

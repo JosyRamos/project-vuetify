@@ -59,46 +59,40 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue-grey" @click="cancelar()"> Cancelar </v-btn>
-          <v-btn depressed color="primary" @click="adicionar()">
-            Adicionar
+          <v-btn
+            color="blue darken-1"
+            v-model="fechar"
+            v-resize="fechar()"
+            text
+            @click="dialog = false"
+          >
+            Fechar
           </v-btn>
-          <v-btn color="warning" @click="salvar(indice)"> Salvar </v-btn>
+          <v-btn depressed color="primary" v-resize="adicionar()" @click="dialog= false"> Adicionar </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-simple-table cols="10" sm="10">
+    <v-simple-table>
       <template v-slot:default>
         <thead>
           <tr>
             <th class="text-left">Codigo</th>
             <th class="text-left">Nome</th>
             <th class="text-left">Endereço</th>
-            <th class="text-left">Telefone</th>
-            <th class="text-left">CPF</th>
-            <th class="text-left">Data de Nascimento</th>
-            <th class="text-left">Opções</th>
+            <td class="text-left">Telefone</td>
+            <td class="text-left">CPF</td>
+            <td class="text-left">Data de Nascimento</td>
           </tr>
         </thead>
-        <tbody cols="12" sm="12">
-          <tr v-for="(arrayForm, index) in arrayForms" v-bind:key="index">
-            <td>{{ arrayForm.codigo }}</td>
-            <td>{{ arrayForm.nome }}</td>
-            <td>{{ arrayForm.endereco }}</td>
-            <td>{{ arrayForm.telefone }}</td>
-            <td>{{ arrayForm.cpf }}</td>
-            <td>{{ arrayForm.nascimento }}</td>
-            <td>
-              <v-btn class="mx-2" @click="editar(index)" x-small color="cyan">
-                <v-icon  dark> mdi-pencil </v-icon>
-              </v-btn>
-            </td>
-            <td>
-              <v-btn class="mx-2" @click="excluir(index)" x-small color="red">
-                <v-icon  dark> mdi-delete </v-icon>
-              </v-btn>
-            </td>
-          </tr>
+        <tbody>
+          <td v-for="(arrayForm, index) in arrayForms" v-bind:key="index">
+            <tr>{{ arrayForm.codigo }}</tr>
+            <tr>{{ arrayForm.nome }}</tr>
+            <tr>{{ arrayForm.endereco }}</tr>
+            <tr>{{ arrayForm.telefone }}</tr>
+            <tr>{{ arrayForm.cpf }}</tr>
+            <tr>{{ arrayForm.nascimento }}</tr>
+          </td>
         </tbody>
       </template>
     </v-simple-table>
@@ -112,7 +106,7 @@ export default {
   data() {
     return {
       dialog: false,
-
+     
       arrayForms: [],
       nome: "",
       endereco: "",
@@ -120,59 +114,26 @@ export default {
       cpf: "",
       nascimento: "",
       codigo: "",
-      botao: "",
-     
-    };
+      index:'',
+      botao:''
+    
+    }
   },
   methods: {
-    adicionar() {
-      this.arrayForms.push({
-        codigo: this.arrayForms.length,
-        nome: this.nome,
-        endereco: this.endereco,
-        telefone: this.telefone,
-        cpf: this.cpf,
-        nascimento: this.nascimento,
-      });
-       this.dialog = false;
-      this.renderizar();
-    },
-
-    cancelar() {
-     
-      this.renderizar();
-       this.dialog = false;
-    },
-
-    renderizar() {
-      (this.codigo = ""),
-        (this.nome = ""),
-        (this.endereco = ""),
-        (this.telefone = ""),
-        (this.cpf = ""),
-        (this.nascimento = "");
-    },
-    editar(index) {
-     
-      this.dialog = true;
-      this.nome = this.arrayForms[index].nome;
-      this.endereco = this.arrayForms[index].endereco;
-      this.telefone = this.arrayForms[index].telefone;
-      this.cpf = this.arrayForms[index].cpf;
-      this.nascimento = this.arrayForms[index].nascimento;
-    },
-    excluir(index) {
-      this.arrayForms.splice(index, 1);
-    },
-    salvar() {
+    adicionar(){
+  if(this.dialog==false){
+    this.arrayForms.push({
       
-      (this.arrayForms[this.index].nome = this.nome),
-        (this.arrayForms[this.index].endereco = this.endereco),
-        (this.arrayForms[this.index].telefone = this.telefone),
-        (this.arrayForms[this.index].cpf = this.cpf),
-        (this.arrayForms[this.index].nascimento = this.nascimento);
-        
-        this.dialog = false;
+    })
+  }
+    
+   
+     
+    },
+    
+    fechar() {
+     
+      
     },
   },
 };
