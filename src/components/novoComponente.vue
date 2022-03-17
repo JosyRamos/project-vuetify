@@ -28,7 +28,7 @@
                     label="Telefone*"
                     v-model="telefone"
                     type="text"
-                    v-mask="'#######-####'"
+                    v-mask="'(65)#####-####'"
                     required
                   ></v-text-field>
                 </v-col>
