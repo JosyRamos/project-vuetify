@@ -1,14 +1,13 @@
 <template>
   <v-app>
-    
+    <v-row justify="center">
       <div class="d-flex align-center">
        <h1> 
          Sistema de Cadastro
        </h1>
-       
       </div>
-
-      <v-spacer></v-spacer>
+       </v-row>
+  
     <novoComponente>
       :novoComponente="novoComponente"
     </novoComponente>

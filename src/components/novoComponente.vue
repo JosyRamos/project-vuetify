@@ -3,11 +3,11 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" id="cadastro" v-on="on">
+        <v-btn color="primary" dark v-bind="attrs"  v-on="on" justify="center">
           Adicionar Cadastro
         </v-btn>
       </template>
-
+<v-spacer></v-spacer>
       <v-card>
         <v-card-title>
           <span class="text-h5">Novo Cadastro</span>
@@ -49,15 +49,15 @@
                 </v-col>
               </v-col>
 
-              <v-col cols="12" sm="6">
-                <v-row justify="center"> Data de Nascimento
-                  <v-date-picker
-                    v-model="nascimento"
-                    year-icon="mdi-calendar-blank"
-                    prev-icon="mdi-skip-previous"
-                    next-icon="mdi-skip-next"
-                  ></v-date-picker>
-                </v-row>
+               <v-col cols="12" sm="6" >
+                  <v-text-field
+                  prepend-icon="mdi-calendar"
+                  label="Data de nascimento*"
+                  v-model="nascimento"
+                  
+                  persistent-hint
+                  required
+                ></v-text-field>
                
               </v-col>
               <v-col cols="12" sm="6"> </v-col>
@@ -65,22 +65,23 @@
           </v-container>
           <small>*Campo Obrigatório</small>
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions >
           <v-spacer></v-spacer>
-          <v-btn color="blue-grey" @click="cancelar()"> Cancelar </v-btn>
+          <v-btn color="blue-grey" @click="cancelar()">Cancelar </v-btn>
           <div>
             <v-btn depressed color="primary" @click="adicionar()">
               Adicionar
             </v-btn>
           </div>
-          <div>
+          <div >
             <v-btn color="warning" @click="salvar(indice)"> Salvar </v-btn>
           </div>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <v-simple-table cols="10" sm="10">
-      <template v-slot:default>
+      <template v-slot:default >
+        
         <thead>
           <tr>
             <th class="text-left">Codigo</th>
@@ -108,6 +109,7 @@
                 x-small
                 color="cyan"
               >
+      
                 <v-icon dark> mdi-pencil </v-icon>
               </v-btn>
             </td>
@@ -129,12 +131,13 @@ export default {
 
   data() {
     return {
+     
       dialog: false,
       valid: false,
       arrayForms: [],
       nome: "",
       endereco: "",
-      telefone: "",
+      telefone: "(65)",
       cpf: "",
       codigo: "",
       botao: "",
