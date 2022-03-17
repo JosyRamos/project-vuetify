@@ -3,25 +3,28 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on">
+        <v-btn color="primary" dark v-bind="attrs" id="cadastro" v-on="on">
           Adicionar Cadastro
         </v-btn>
       </template>
+
       <v-card>
         <v-card-title>
           <span class="text-h5">Novo Cadastro</span>
         </v-card-title>
-        <v-card-text>
+        <v-card-text v-model="valid" lazy-validation>
           <v-container>
             <v-row>
               <v-col cols="12">
                 <v-text-field
+                  prepend-icon="mdi-account"
                   label="Nome Completo*"
                   v-model="nome"
                   required
                 ></v-text-field>
                 <v-col cols="12" sm="6" md="4">
                   <v-text-field
+                    prepend-icon="mdi-phone"
                     label="Telefone*"
                     v-model="telefone"
                     required
@@ -31,26 +34,31 @@
                   <v-text-field
                     label="CPF*"
                     v-model="cpf"
+                    :counter="11"
                     required
                   ></v-text-field>
                 </v-col>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  label="Data de Nascimento*"
-                  v-model="nascimento"
-                  hint="example of persistent helper text"
-                  persistent-hint
-                  required
-                ></v-text-field>
-
-                <v-text-field
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                  prepend-icon="mdi-map-marker"
                   label="Endereço*"
                   v-model="endereco"
-                  hint="example of persistent helper text"
                   persistent-hint
                   required
                 ></v-text-field>
+                </v-col>
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-row justify="center"> Data de Nascimento
+                  <v-date-picker
+                    v-model="nascimento"
+                    year-icon="mdi-calendar-blank"
+                    prev-icon="mdi-skip-previous"
+                    next-icon="mdi-skip-next"
+                  ></v-date-picker>
+                </v-row>
+               
               </v-col>
               <v-col cols="12" sm="6"> </v-col>
             </v-row>
@@ -60,10 +68,14 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue-grey" @click="cancelar()"> Cancelar </v-btn>
-          <v-btn depressed color="primary" @click="adicionar()">
-            Adicionar
-          </v-btn>
-          <v-btn color="warning" @click="salvar(indice)"> Salvar </v-btn>
+          <div>
+            <v-btn depressed color="primary" @click="adicionar()">
+              Adicionar
+            </v-btn>
+          </div>
+          <div>
+            <v-btn color="warning" @click="salvar(indice)"> Salvar </v-btn>
+          </div>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -89,13 +101,19 @@
             <td>{{ arrayForm.cpf }}</td>
             <td>{{ arrayForm.nascimento }}</td>
             <td>
-              <v-btn class="mx-2" @click="editar(index)" x-small color="cyan">
-                <v-icon  dark> mdi-pencil </v-icon>
+              <v-btn
+                class="mx-2"
+                @click="editar(index)"
+                v-model="editar"
+                x-small
+                color="cyan"
+              >
+                <v-icon dark> mdi-pencil </v-icon>
               </v-btn>
             </td>
             <td>
               <v-btn class="mx-2" @click="excluir(index)" x-small color="red">
-                <v-icon  dark> mdi-delete </v-icon>
+                <v-icon dark> mdi-delete </v-icon>
               </v-btn>
             </td>
           </tr>
@@ -112,16 +130,17 @@ export default {
   data() {
     return {
       dialog: false,
-
+      valid: false,
       arrayForms: [],
       nome: "",
       endereco: "",
       telefone: "",
       cpf: "",
-      nascimento: "",
       codigo: "",
       botao: "",
-     
+      indice: "",
+      nascimento: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      
     };
   },
   methods: {
@@ -134,14 +153,13 @@ export default {
         cpf: this.cpf,
         nascimento: this.nascimento,
       });
-       this.dialog = false;
+      this.dialog = false;
       this.renderizar();
     },
 
     cancelar() {
-     
       this.renderizar();
-       this.dialog = false;
+      this.dialog = false;
     },
 
     renderizar() {
@@ -153,7 +171,7 @@ export default {
         (this.nascimento = "");
     },
     editar(index) {
-     
+      this.indice = index;
       this.dialog = true;
       this.nome = this.arrayForms[index].nome;
       this.endereco = this.arrayForms[index].endereco;
@@ -165,14 +183,13 @@ export default {
       this.arrayForms.splice(index, 1);
     },
     salvar() {
-      
-      (this.arrayForms[this.index].nome = this.nome),
-        (this.arrayForms[this.index].endereco = this.endereco),
-        (this.arrayForms[this.index].telefone = this.telefone),
-        (this.arrayForms[this.index].cpf = this.cpf),
-        (this.arrayForms[this.index].nascimento = this.nascimento);
-        
-        this.dialog = false;
+      (this.arrayForms[this.indice].nome = this.nome),
+        (this.arrayForms[this.indice].endereco = this.endereco),
+        (this.arrayForms[this.indice].telefone = this.telefone),
+        (this.arrayForms[this.indice].cpf = this.cpf),
+        (this.arrayForms[this.indice].nascimento = this.nascimento);
+
+      this.dialog = false;
     },
   },
 };
