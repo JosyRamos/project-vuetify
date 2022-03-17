@@ -3,11 +3,11 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs"  v-on="on" justify="center">
+        <v-btn color="primary" dark v-bind="attrs" v-on="on" justify="center">
           Adicionar Cadastro
         </v-btn>
       </template>
-<v-spacer></v-spacer>
+      <v-spacer></v-spacer>
       <v-card>
         <v-card-title>
           <span class="text-h5">Novo Cadastro</span>
@@ -27,61 +27,64 @@
                     prepend-icon="mdi-phone"
                     label="Telefone*"
                     v-model="telefone"
+                    type="text"
+                    v-mask="'#######-####'"
                     required
                   ></v-text-field>
                 </v-col>
+
                 <v-col cols="12" sm="6" md="4">
                   <v-text-field
-                    label="CPF*"
+                    type="text"
                     v-model="cpf"
-                    :counter="11"
+                    v-mask="'###.###.###-##'"
+                    label="CPF*"
                     required
                   ></v-text-field>
                 </v-col>
+
                 <v-col cols="12" sm="6">
                   <v-text-field
-                  prepend-icon="mdi-map-marker"
-                  label="Endereço*"
-                  v-model="endereco"
-                  persistent-hint
-                  required
-                ></v-text-field>
+                    prepend-icon="mdi-map-marker"
+                    label="Endereço*"
+                    v-model="endereco"
+                    persistent-hint
+                    required
+                  ></v-text-field>
                 </v-col>
               </v-col>
 
-               <v-col cols="12" sm="6" >
-                  <v-text-field
+              <v-col cols="12" sm="6">
+                <v-text-field
                   prepend-icon="mdi-calendar"
                   label="Data de nascimento*"
                   v-model="nascimento"
-                  
+                  type="text"
+                  v-mask="'##/##/####'"
                   persistent-hint
                   required
                 ></v-text-field>
-               
               </v-col>
               <v-col cols="12" sm="6"> </v-col>
             </v-row>
           </v-container>
           <small>*Campo Obrigatório</small>
         </v-card-text>
-        <v-card-actions >
+        <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue-grey" @click="cancelar()">Cancelar </v-btn>
-          <div>
+          <div :dark="adicionar">
             <v-btn depressed color="primary" @click="adicionar()">
               Adicionar
             </v-btn>
           </div>
-          <div >
-            <v-btn color="warning" @click="salvar(indice)"> Salvar </v-btn>
-          </div>
+
+          <v-btn color="warning" @click="salvar(indice)"> Salvar </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <v-simple-table cols="10" sm="10">
-      <template v-slot:default >
-        
+      <template v-slot:default>
         <thead>
           <tr>
             <th class="text-left">Codigo</th>
@@ -102,16 +105,17 @@
             <td>{{ arrayForm.cpf }}</td>
             <td>{{ arrayForm.nascimento }}</td>
             <td>
-              <v-btn
-                class="mx-2"
-                @click="editar(index)"
-                v-model="editar"
-                x-small
-                color="cyan"
-              >
-      
-                <v-icon dark> mdi-pencil </v-icon>
-              </v-btn>
+              <div>
+                <v-btn
+                  class="mx-2"
+                  @click="editar(index)"
+                  v-model="editar"
+                  x-small
+                  color="cyan"
+                >
+                  <v-icon dark> mdi-pencil </v-icon>
+                </v-btn>
+              </div>
             </td>
             <td>
               <v-btn class="mx-2" @click="excluir(index)" x-small color="red">
@@ -131,7 +135,6 @@ export default {
 
   data() {
     return {
-     
       dialog: false,
       valid: false,
       arrayForms: [],
@@ -142,8 +145,7 @@ export default {
       codigo: "",
       botao: "",
       indice: "",
-      nascimento: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-      
+      nascimento: "",
     };
   },
   methods: {
@@ -176,6 +178,7 @@ export default {
     editar(index) {
       this.indice = index;
       this.dialog = true;
+
       this.nome = this.arrayForms[index].nome;
       this.endereco = this.arrayForms[index].endereco;
       this.telefone = this.arrayForms[index].telefone;
