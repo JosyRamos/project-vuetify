@@ -3,14 +3,18 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on" justify="center">
+        
+        <v-btn color="success" dark v-bind="attrs" v-on="on" justify="center">
           Adicionar Cadastro
         </v-btn>
       </template>
-      <v-spacer></v-spacer>
+     
       <v-card>
+         <v-spacer></v-spacer>
         <v-card-title>
-          <span class="text-h5">Novo Cadastro</span>
+          <v-toolbar  color="primary" max-width="600">
+          <h2  class="text-h5">{{h2}}</h2>
+          </v-toolbar>
         </v-card-title>
         <v-card-text v-model="valid" lazy-validation>
           <v-container>
@@ -20,37 +24,41 @@
                   prepend-icon="mdi-account"
                   label="Nome Completo*"
                   v-model="nome"
-                  required
+                  @change="$v.nome.$touch()"
                 ></v-text-field>
+                <span v-if="$v.nome.$error">nome é obrigatorio.</span>
+
                 <v-col cols="12" sm="6" md="4">
                   <v-text-field
                     prepend-icon="mdi-phone"
                     label="Telefone*"
-                    v-model="telefone"
-                    type="text"
                     v-mask="'(65)#####-####'"
-                    required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" sm="6" md="4">
-                  <v-text-field
                     type="text"
-                    v-model="cpf"
-                    v-mask="'###.###.###-##'"
-                    label="CPF*"
-                    required
+                    v-model="telefone"
+                    @change="$v.telefone.$touch()"
                   ></v-text-field>
+                  <span v-if="$v.telefone.$error">telefone é obrigatorio.</span>
                 </v-col>
-
+               
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      type="text"
+                      v-mask="'###.###.###-##'"
+                      label="CPF*"
+                      v-model="cpf"
+                      @change="$v.cpf.$touch()"
+                    ></v-text-field>
+                    <span v-if="$v.cpf.$error">CPF é obrigatorio.</span>
+                  </v-col>
+                
                 <v-col cols="12" sm="6">
                   <v-text-field
                     prepend-icon="mdi-map-marker"
                     label="Endereço*"
                     v-model="endereco"
-                    persistent-hint
-                    required
+                    @change="$v.endereco.$touch()"
                   ></v-text-field>
+                  <span v-if="$v.endereco.$error">Endereço é obrigatorio.</span>
                 </v-col>
               </v-col>
 
@@ -58,12 +66,14 @@
                 <v-text-field
                   prepend-icon="mdi-calendar"
                   label="Data de nascimento*"
-                  v-model="nascimento"
-                  type="text"
                   v-mask="'##/##/####'"
-                  persistent-hint
-                  required
+                  type="text"
+                  v-model="nascimento"
+                  @change="$v.nascimento.$touch()"
                 ></v-text-field>
+                <span v-if="$v.nascimento.$error"
+                  >Data de nascimento é obrigatorio.</span
+                >
               </v-col>
               <v-col cols="12" sm="6"> </v-col>
             </v-row>
@@ -73,19 +83,25 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue-grey" @click="cancelar()">Cancelar </v-btn>
-          <div :dark="adicionar">
-            <v-btn depressed color="primary" @click="adicionar()">
-              Adicionar
+          <div >
+            <v-btn 
+            v-if="this.h2!='Editar Cadastro'"
+             depressed color="success" 
+                  @click.prevent="adicionar()">
+            {{botao}}
             </v-btn>
           </div>
-
-          <v-btn color="warning" @click="salvar(indice)"> Salvar </v-btn>
+          <div v-if="this.h2=='Editar Cadastro'">
+          <v-btn color="warning" @click.prevent="salvar(indice)">
+            Salvar
+          </v-btn>
+          </div>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <v-simple-table cols="10" sm="10">
       <template v-slot:default>
-        <thead>
+        <thead class="formulario">
           <tr>
             <th class="text-left">Codigo</th>
             <th class="text-left">Nome</th>
@@ -130,6 +146,7 @@
 </template>
 
 <script>
+import { required, minLength } from "vuelidate/lib/validators";
 export default {
   name: "novoComponente",
 
@@ -140,31 +157,63 @@ export default {
       arrayForms: [],
       nome: "",
       endereco: "",
-      telefone: "(65)",
+      telefone: "",
       cpf: "",
       codigo: "",
-      botao: "",
+      botao: "Adicionar",
       indice: "",
       nascimento: "",
+      h2:"Novo Cadastro",
+      valores:"",
+
     };
+  },
+  validations: {
+    nome: {
+      required,
+      minLength: minLength(4),
+    },
+    endereco: {
+      required,
+      minLength: minLength(5),
+    },
+    nascimento: {
+      required,
+      minLength: minLength(4),
+    },
+    cpf: {
+      required,
+      minLength: minLength(9),
+    },
+    telefone: {
+      required,
+      minLength: minLength(7),
+    },
   },
   methods: {
     adicionar() {
-      this.arrayForms.push({
-        codigo: this.arrayForms.length,
-        nome: this.nome,
-        endereco: this.endereco,
-        telefone: this.telefone,
-        cpf: this.cpf,
-        nascimento: this.nascimento,
-      });
-      this.dialog = false;
-      this.renderizar();
+     
+      if (!this.$v.$error) {
+        this.arrayForms.push({
+          codigo: this.arrayForms.length,
+          nome: this.nome,
+          endereco: this.endereco,
+          telefone: this.telefone,
+          cpf: this.cpf,
+          nascimento: this.nascimento,
+        });
+        this.dialog = false;
+        this.renderizar();
+      } else {
+        this.$v.$touch();
+      }
     },
 
     cancelar() {
-      this.renderizar();
+     this.renderizar();
       this.dialog = false;
+       this.h2="Novo Cadastro"
+        
     },
 
     renderizar() {
@@ -176,6 +225,8 @@ export default {
         (this.nascimento = "");
     },
     editar(index) {
+       
+     this.h2="Editar Cadastro"
       this.indice = index;
       this.dialog = true;
 
@@ -184,19 +235,37 @@ export default {
       this.telefone = this.arrayForms[index].telefone;
       this.cpf = this.arrayForms[index].cpf;
       this.nascimento = this.arrayForms[index].nascimento;
+      
     },
     excluir(index) {
+     
       this.arrayForms.splice(index, 1);
     },
     salvar() {
-      (this.arrayForms[this.indice].nome = this.nome),
-        (this.arrayForms[this.indice].endereco = this.endereco),
-        (this.arrayForms[this.indice].telefone = this.telefone),
-        (this.arrayForms[this.indice].cpf = this.cpf),
-        (this.arrayForms[this.indice].nascimento = this.nascimento);
-
-      this.dialog = false;
+      if (!this.$v.$error) {
+        (this.arrayForms[this.indice].nome = this.nome),
+          (this.arrayForms[this.indice].endereco = this.endereco),
+          (this.arrayForms[this.indice].telefone = this.telefone),
+          (this.arrayForms[this.indice].cpf = this.cpf),
+          (this.arrayForms[this.indice].nascimento = this.nascimento);
+        this.renderizar();
+        this.dialog = false;
+         this.h2="Novo Cadastro"
+      } else {
+        this.$v.$touch();
+      }
     },
   },
 };
 </script>
+<style>
+span {
+  color: red;
+}
+valores{
+  display: none;
+  color:aliceblue;
+}
+
+
+</style>
