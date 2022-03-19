@@ -2,11 +2,19 @@
   <v-app>
     <v-row justify="center">
       <div class="d-flex align-center">
-         <v-toolbar class="font-weight-light">
+        <v-card>
+         <v-toolbar class="font-weight-light" color="light-blue"
+          light
+          extended>
+            
        <h1> 
+          
          Sistema de Cadastro
        </h1>
+     
        </v-toolbar>
+        </v-card>
+      
       </div>
        </v-row>
   
