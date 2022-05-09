@@ -38,7 +38,15 @@ export default {
   components: {
     HelloWorld,
     novoComponente,
+   
+    
   },
+  mounted(){
+    console.log(this.$firebase)
+    
+    
+
+  }
 
 };
 </script>

@@ -182,7 +182,7 @@ export default {
     },
     endereco: {
       required,
-      minLength: minLength(5),
+      minLength: minLength(4),
     },
     nascimento: {
       required,

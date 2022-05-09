@@ -100,12 +100,14 @@
 </template>
 
 <script>
+
 export default {
   name: "novoComponente",
 
   data() {
     return {
       dialog: false,
+
      
       arrayForms: [],
       nome: "",
