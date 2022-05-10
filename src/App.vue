@@ -8,38 +8,32 @@
           extended>
             
        <h1> 
-          
          Sistema de Cadastro
        </h1>
-     
        </v-toolbar>
         </v-card>
-      
       </div>
        </v-row>
-  
     <novoComponente>
       :novoComponente="novoComponente"
     </novoComponente>
     <v-main>
-      <HelloWorld/>
+      <implementacoes/>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import implementacoes from './components/implementacoes';
 import novoComponente from './components/novoComponente';
-//import NovoComponente from './components/novoComponente.vue';
+
 
 export default {
   name: 'App',
-
+  
   components: {
-    HelloWorld,
+    implementacoes,
     novoComponente,
-   
-    
   },
   mounted(){
     console.log(this.$firebase)
