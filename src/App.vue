@@ -14,9 +14,9 @@
         </v-card>
       </div>
        </v-row>
-    <novoComponente>
+    <NovoComponente>
       :NovoComponente="NovoComponente"
-    </novoComponente>
+    </NovoComponente>
     <v-main>
     <router-view>
     </router-view>

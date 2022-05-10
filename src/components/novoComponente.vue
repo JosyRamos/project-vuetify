@@ -169,11 +169,10 @@ export default {
         telefone: "",
         cpf: "",
         nascimento: "",
-        codigo:""
+        codigo:"",
      },
       botao: "Adicionar",
       indice: "",
-      nascimento: "",
       h2: "Novo Cadastro",
       valores: false,
     };
