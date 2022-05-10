@@ -15,25 +15,25 @@
       </div>
        </v-row>
     <novoComponente>
-      :novoComponente="novoComponente"
+      :NovoComponente="NovoComponente"
     </novoComponente>
     <v-main>
-      <implementacoes/>
+    <router-view>
+    </router-view>
+
     </v-main>
   </v-app>
 </template>
 
 <script>
-import implementacoes from './components/implementacoes';
-import novoComponente from './components/novoComponente';
+import NovoComponente from './components/NovoComponente';
 
 
 export default {
   name: 'App',
   
   components: {
-    implementacoes,
-    novoComponente,
+    NovoComponente
   },
   mounted(){
     console.log(this.$firebase)

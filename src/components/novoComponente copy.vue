@@ -110,11 +110,13 @@ export default {
 
      
       arrayForms: [],
-      nome: "",
-      endereco: "",
-      telefone: "",
-      cpf: "",
-      nascimento: "",
+     pessoas:{
+       nome: "",
+       endereco: "",
+        telefone: "",
+        cpf: "",
+        nascimento: "",
+     },
       codigo: "",
       index:'',
       botao:''

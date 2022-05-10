@@ -13,9 +13,10 @@
 
 <script>
   export default {
-    name: 'implementacoes',
+    name: 'ImplementacoesS',
 
     data: () => ({
+
       ecosystem: [
         {
           text: 'vuetify-loader',
