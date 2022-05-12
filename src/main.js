@@ -3,13 +3,12 @@ import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import VMask from "v-mask";
 import Vuelidate from 'vuelidate';
-import VueRouter from 'vue-router';
-import Implementacoes from './components/Implementacoes.vue';
 import { initializeApp }from "firebase/app";
+import router from '@/router'
 
 
 Vue.use(Vuelidate);
-Vue.use(VueRouter);
+
 
 initializeApp({
   apiKey: "AIzaSyCftxJfKLda--unY5EJ5nboAeFkwa4D2uM",
@@ -22,25 +21,13 @@ initializeApp({
 
 })
 
-const router = new VueRouter({
-  routes:[
-    {
-    path: '/cadastro',
-    component: Implementacoes
-   },
-   {
-     path: '/',
-     redirect: '/cadastro'
-   }
-  ]
 
-})
 
 Vue.use(VMask);
 Vue.config.productionTip = false
 
 new Vue({
   vuetify,
+  render: h => h(App),
   router,
-  render: h => h(App)
 }).$mount('#app')
