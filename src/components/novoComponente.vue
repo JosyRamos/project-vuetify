@@ -3,7 +3,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }"> 
-        <div  class="d-flex align-center">
+        <div  class="card-header text-center">
         <v-btn color="success" dark v-bind="attrs" v-on="on" justify="center" >
           Adicionar Cadastro
         </v-btn>
@@ -155,25 +155,25 @@
 
 <script>
 import { required, minLength } from "vuelidate/lib/validators";
-import {createUser} from '@/firebase'
-import {reactive} from 'vue'
+// import {createUser} from '@/firebase'
+// import {reactive} from 'vue'
 export default {
   name: "novoComponente",
 
-  setup(){
-    const arrayForm = reactive({nome:'', endereco:'', telefone:'', cpf:'' ,codigo:'', nascimento:''})
-    const onSubimt = async () =>{
-       await createUser ({... arrayForm})
-       arrayForm.nome = '',
-       arrayForm.endereco = '',
-       arrayForm.telefone = '',
-       arrayForm.cpf = '',
-       arrayForm.codigo = '',
-       arrayForm.nascimento = ''
+  // setup(){
+  //   const arrayForm = reactive({nome:'', endereco:'', telefone:'', cpf:'' ,codigo:'', nascimento:''})
+  //   const onSubimt = async () =>{
+  //      await createUser ({... arrayForm})
+  //      arrayForm.nome = '',
+  //      arrayForm.endereco = '',
+  //      arrayForm.telefone = '',
+  //      arrayForm.cpf = '',
+  //      arrayForm.codigo = '',
+  //      arrayForm.nascimento = ''
 
-    }
-    return {arrayForm, onSubimt}
-  },
+  //   }
+  //   return {arrayForm, onSubimt}
+  // },
 
   data() {
     return {
@@ -216,7 +216,6 @@ export default {
   },
   methods: {
     adicionar() {
-     
        this.arrayForms.push({
           codigo: this.arrayForms.length,
           nome: this.nome,

@@ -3,7 +3,9 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import VMask from "v-mask"
 import Vuelidate from 'vuelidate'
+import Firabase from './firebase'
 
+Vue.use(Firabase);
 Vue.use(Vuelidate);
 
 Vue.use(VMask);
