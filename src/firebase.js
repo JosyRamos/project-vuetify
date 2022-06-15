@@ -2,7 +2,6 @@
 // import {ref, onUnmounted} from 'vue' 
 import * as firebase from "firebase/app";
 import 'firebase/auth'
-import 'firebase/storage'
 import 'firebase/database'
 
 export const firebaseApp= firebase.initializeApp({
