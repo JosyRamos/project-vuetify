@@ -1,16 +1,16 @@
 <template>
-<v-form @submit.prevent="firebaseCad()">
-<v-row justify="center">
+<v-form @submit.prevent="submit()">
+  <v-row justify="center">
 
-  <v-dialog v-model="dialog" persistent max-width="600px">
-    <template v-slot:activator="{ on, attrs }">
-      <div class="card-header text-center">
-        <v-btn color="success" dark v-bind="attrs" v-on="on" justify="center">
-          Adicionar Cadastro
-        </v-btn>
-      </div>
-    </template>
-    
+    <v-dialog v-model="dialog" persistent max-width="600px">
+      <template v-slot:activator="{ on, attrs }">
+        <div class="card-header text-center">
+          <v-btn color="success" dark v-bind="attrs" v-on="on" justify="center">
+            Adicionar Cadastro
+          </v-btn>
+        </div>
+      </template>
+
       <v-card>
         <v-spacer></v-spacer>
 
@@ -68,57 +68,60 @@
         </v-card-actions>
 
       </v-card>
-  
-  </v-dialog>
 
-  <v-simple-table cols="10" sm="10">
-    <template v-slot:default>
+    </v-dialog>
 
-      <thead class="formulario">
-        <tr>
-          <th class="d-flex align-center">Codigo</th>
-          <th class="text-left">Nome</th>
-          <th class="text-left">Endereço</th>
-          <th class="text-left">Telefone</th>
-          <th class="text-left">CPF</th>
-          <th class="text-left">Data de Nascimento</th>
-          <th class="text-left">Opções</th>
-        </tr>
-      </thead>
+    <v-simple-table cols="10" sm="10">
+      <template v-slot:default>
 
-      <tbody cols="12" sm="12">
-        <tr v-for="(arrayForm, index) in arrayForms" v-bind:key="index">
-          <td>{{ arrayForm.codigo }}</td>
-          <td>{{ arrayForm.nome }}</td>
-          <td>{{ arrayForm.endereco }}</td>
-          <td>{{ arrayForm.telefone }}</td>
-          <td>{{ arrayForm.cpf }}</td>
-          <td>{{ arrayForm.nascimento }}</td>
-          <td>
-            <div>
-              <v-btn class="mx-2" @click="editar(index)" v-model="editar" x-small color="cyan">
-                <v-icon dark> mdi-pencil </v-icon>
+        <thead class="formulario">
+          <tr>
+            <th class="d-flex align-center">Codigo</th>
+            <th class="text-left">Nome</th>
+            <th class="text-left">Endereço</th>
+            <th class="text-left">Telefone</th>
+            <th class="text-left">CPF</th>
+            <th class="text-left">Data de Nascimento</th>
+            <th class="text-left">Opções</th>
+          </tr>
+        </thead>
+
+        <tbody cols="12" sm="12">
+          <tr v-for="(arrayForm, index) in arrayForms" v-bind:key="index">
+            <td>{{ arrayForm.codigo }}</td>
+            <td>{{ arrayForm.nome }}</td>
+            <td>{{ arrayForm.endereco }}</td>
+            <td>{{ arrayForm.telefone }}</td>
+            <td>{{ arrayForm.cpf }}</td>
+            <td>{{ arrayForm.nascimento }}</td>
+            <td>
+              <div>
+                <v-btn class="mx-2" @click="editar(index)" v-model="editar" x-small color="cyan">
+                  <v-icon dark> mdi-pencil </v-icon>
+                </v-btn>
+              </div>
+            </td>
+            <td>
+              <v-btn class="mx-2" @click="excluir(index)" x-small color="red">
+                <v-icon dark> mdi-delete </v-icon>
               </v-btn>
-            </div>
-          </td>
-          <td>
-            <v-btn class="mx-2" @click="excluir(index)" x-small color="red">
-              <v-icon dark> mdi-delete </v-icon>
-            </v-btn>
-          </td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
-</v-row>
- </v-form>
+            </td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
+  </v-row>
+</v-form>
 </template>
 
 <script>
 import {
   required,
   minLength
+  
 } from "vuelidate/lib/validators";
+// import firebaseCad from '@/service/CadastroFirebase.vue';
+ import {db} from '@/firebase.js'
 
 export default {
   name: "novoComponente",
@@ -128,14 +131,14 @@ export default {
       dialog: false,
       valid: false,
       arrayForms: [],
-      nome: "",
-      endereco: "",
-      telefone: "",
-      cpf: "",
+        nome: "",
+        endereco: "",
+        telefone: "",
+        cpf: "",
+        nascimento: "",
       codigo: "",
       botao: "Adicionar",
       indice: "",
-      nascimento: "",
       h2: "Novo Cadastro",
       valores: false,
     };
@@ -164,22 +167,19 @@ export default {
   },
   methods: {
 
-    async firebaseCad() {
-      console.log("ok")
-      const {
-        cpf,
-        nome,
-        telefone,
-        endereco,
-        nascimento
-      } = this
-      this.$firebase.auth().signInWinthCpfAndNomeAndTelefoneAndEnderecoAndNascimento(cpf, nome, telefone, nascimento, endereco)
-
-    },
-    sumbmit(){
-
-      // const ref = this.$firebase.database().ref(window.uid)
-
+   async firebaseCad(){
+    db.collection('cadastros/').add({
+        nome: this.nome, 
+        nascimento: this.nascimento, 
+        endereco: this.endereco, 
+        cpf: this.cpf,
+         telefone: this.telefone
+      }).then((docRef) => {
+    console.log("Document written with ID: ", docRef.id);
+})
+.catch((error) => {
+    console.error("Error adding document: ", error);
+});
     },
     adicionar() {
       this.arrayForms.push({
@@ -190,6 +190,7 @@ export default {
         cpf: this.cpf,
         nascimento: this.nascimento,
       });
+       this.firebaseCad();
       this.dialog = false;
       this.renderizar();
     },
